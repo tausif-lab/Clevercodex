@@ -1,13 +1,19 @@
-import { Hero } from "@/components/home/hero";
+import { Hero } from "@/components/home/hero-1";
+import { ValuesSection } from "@/components/home/valuesection";
+import { ImageScroll } from "@/components/home/image-scroll";
 
 export default function Home() {
   return (
-    <Hero
-      title="Build smarter tools for modern teams"
-      subtitle="Streamline your workflow and boost productivity with intuitive solutions. Security, speed, and simplicity—all in one platform."
-      eyebrow="Next-Gen Productivity"
-      ctaLabel="Get Started"
-      ctaHref="#"
-    />
+    <>
+      <Hero
+        title="End-to-End Web, App & SEO Solutions"
+        subtitle="Clever Codex combines performance-focused development with strategic SEO to help ambitious brands scale faster and smarter."
+        eyebrow="Next-Gen Productivity"
+        ctaLabel="Get Started"
+        ctaHref="#"
+      />
+      <ValuesSection />
+      <ImageScroll />
+    </>
   );
 }
