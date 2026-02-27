@@ -39,7 +39,7 @@ const projects = [
     id: 2,
     title: "Online Exam System",
     description: "The Online Examination System with AI Proctored Security Analysis System Question Preparation System for the teacher and MCQ+Disc Diagram Question checking , parents access support  ",
-    image: "/Intro/Tausif/onlineexam.png",
+    image: "/Intro/Tausif/Onlineexam.png",
     github: "https://github.com/tausif-lab/onlineexam",
     demo: "https://exampro-4uor.onrender.com",
     tags: ["HTML","MongoDB","Express.js","javascript","Node.js"]

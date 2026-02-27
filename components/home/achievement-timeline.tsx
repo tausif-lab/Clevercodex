@@ -132,7 +132,7 @@ const timelineData = [
           </div>
           <div className="relative w-full aspect-[4/3] bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 shadow-[0_0_24px_rgba(255,255,255,0.1)]">
             <Image
-              src="/Achievement/UNICEF2.jpg"
+              src="/Achievement/UNICEF2.JPG"
               alt="Coding"
               fill
               className="object-contain p-2"

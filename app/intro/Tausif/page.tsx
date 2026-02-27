@@ -20,7 +20,7 @@ const syne = Syne({
 // Certificates Data - Now with single image per certificate
 const certificates = [
   { id: 1, image: "/Intro/Tausif/IMG_2556.jpg", title: "Winner statelevel hackthon " },
-  { id: 2, image: "/Intro/Tausif/IMG_2555.jpg", title: "Interacollege Hackthon position holders " },
+  { id: 2, image: "/Intro/Tausif/IMG_2555.JPG", title: "Interacollege Hackthon position holders " },
   { id: 3, image: "/Intro/Tausif/IMG_2554.jpg", title: "Winner UNICEF hackthon " },
   { id: 4, image: "/Intro/Tausif/shankaraTau.jpg", title: "Participated On National Level Hackthin" },
 ];
@@ -31,7 +31,7 @@ const projects = [
     id: 1,
     title: "Online Exam System",
     description: "The Online Examination System with AI Proctored Security Analysis System Question Preparation System for the teacher and MCQ+Disc Diagram Question checking , parents access support  ",
-    image: "/Intro/Tausif/onlineexam.png",
+    image: "/Intro/Tausif/Onlineexam.png",
     github: "https://github.com/tausif-lab/onlineexam",
     demo: "https://exampro-4uor.onrender.com",
     tags: ["HTML","MongoDB","Express.js","javascript","Node.js"],
