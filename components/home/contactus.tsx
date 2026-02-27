@@ -42,7 +42,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="relative min-h-[600px] w-full flex items-center justify-center bg-black overflow-hidden py-20 font-syne">
+    <section id="contact" className="relative min-h-[600px] w-full flex items-center justify-center bg-black overflow-hidden py-20 font-syne">
       {/* Background Component from stars-background.tsx */}
       <StarsBackground 
         className="z-0 opacity-60" 

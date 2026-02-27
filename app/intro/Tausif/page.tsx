@@ -7,6 +7,7 @@ import { StarsBackground } from "../../../components/ui/stars-background"; // Ad
 import { Github, ExternalLink } from "lucide-react";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import { Footer } from "../../../components/home/Footer"
 
 const syne = Syne({
   subsets: ["latin"],
@@ -297,6 +298,7 @@ const isInView = useInView(containerRef, { once: true, amount: 0.5 });
                 ))}
               </div>
             </section>
+            <Footer />
 
           </div>
         </div>

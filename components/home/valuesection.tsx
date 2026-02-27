@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { StarsBackground } from "@/components/ui/stars-background";
 import { Syne } from "next/font/google";
-
+import Link from "next/link";
 const syne = Syne({ subsets: ["latin"] });
 
 interface AgencyHeroProps {
@@ -95,7 +95,7 @@ export const AgencyHero: React.FC<AgencyHeroProps> = ({ className, visionImageSr
             <div className="space-y-8">
               <div className="inline-block">
                 <span className="text-sm font-medium tracking-wider text-gray-400 uppercase">
-                  Modern Development Agency
+                 Cowebed
                 </span>
               </div>
 
@@ -184,9 +184,11 @@ export const AgencyHero: React.FC<AgencyHeroProps> = ({ className, visionImageSr
                 </div>
               )}
 
+              <Link href="#contact">
               <button className="rounded-full bg-white px-8 py-4 text-base font-semibold text-black transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/20">
                 Start Your Project
               </button>
+              </Link>
             </div>
 
             {/* Right Visual Element */}

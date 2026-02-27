@@ -32,7 +32,7 @@ export function ImageScrollZakee() {
   const [headingWordIndex, setHeadingWordIndex] = useState(0);
 
   const heading = "CREWMATE";
-  const crewName = "2.Sanji (Full Stack)"; // Subheading on top of the frame
+  const crewName = "2.Sanji"; // Subheading on top of the frame
   const name = "Zakee Ahmed";
   const title = "Full stack developer And system Design Specialist";
 

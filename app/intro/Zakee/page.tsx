@@ -6,7 +6,7 @@ import { StarsBackground } from "../../../components/ui/stars-background"; // Ad
 import { Github, ExternalLink } from "lucide-react";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
-
+import { Footer } from "../../../components/home/Footer"
 const syne = Syne({
   subsets: ["latin"],
   weight: ["400", "700", "800"],
@@ -17,10 +17,10 @@ const syne = Syne({
 
 // Certificates Data - Now with single image per certificate
 const certificates = [
-  { id: 1, image: "/Intro/Tausif/IMG_2556.jpg", title: "Winner statelevel hackthon " },
+  { id: 1, image: "/Intro/Zakee/IdeaZakee.jpeg", title: "Winner At GEC Ideathon" },
   { id: 2, image: "/Intro/Tausif/IMG_2555.jpg", title: "Interacollege Hackthon position holders " },
   { id: 3, image: "/Intro/Tausif/IMG_2554.jpg", title: "Winner UNICEF hackthon " },
-  { id: 4, image: "/Intro/Tausif/IMG_2553.jpg", title: "Winner Design for bharat State level compition " },
+  { id: 4, image: "/Intro/Zakee/Ethical.png", title: " Participated on the Ethical Hacking Workshop By IIT DEhli " },
 ];
 
 // Projects Data - Now with descriptions
@@ -294,6 +294,7 @@ export default function PortfolioPage() {
                 ))}
               </div>
             </section>
+            <Footer />
 
           </div>
         </div>

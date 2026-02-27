@@ -6,7 +6,7 @@ import { StarsBackground } from "../../../components/ui/stars-background"; // Ad
 import { Github, ExternalLink } from "lucide-react";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
-
+import {Footer} from "../../../components/home/Footer"
 
 const syne = Syne({
   subsets: ["latin"],
@@ -294,6 +294,7 @@ export default function PortfolioPage() {
                 ))}
               </div>
             </section>
+            <Footer />
 
           </div>
         </div>

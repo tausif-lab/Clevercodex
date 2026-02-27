@@ -20,7 +20,7 @@ export default function Home() {
       />
       <AgencyHero
         visionImageSrc="/flow.png"
-       //executionImageSrc="/images/execution.png"
+       executionImageSrc="/processworkflow.png"
       />
      <ImageScroll />
      <ImageScrollZakee />
