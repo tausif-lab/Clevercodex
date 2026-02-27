@@ -1,158 +1,11 @@
-/*"use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform, motion, useMotionValueEvent } from "framer-motion";
-
-const FRAME_COUNT = 200;
-
-const currentFrame = (index: number) =>
-  `/Tausif-jpg/ezgif-frame-${index.toString().padStart(3, "0")}.jpg`;
-
-export function ImageScroll() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Calculate the current frame index based on scroll progress
-  // Maps 0-1 to 1-200
-  const frameIndex = useTransform(scrollYProgress, [0, 1], [1, FRAME_COUNT]);
-
-  useEffect(() => {
-    // Preload images
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
-
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-        const img = new Image();
-        img.src = currentFrame(i);
-        img.onload = () => {
-            loadedCount++;
-            if (loadedCount === FRAME_COUNT) {
-                setImages(loadedImages);
-            }
-        };
-        loadedImages.push(img);
-    }
-  }, []);
-
-  // Update canvas when frameIndex changes
-  useMotionValueEvent(frameIndex, "change", (latest: number) => {
-    if (images.length !== FRAME_COUNT) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const context = canvas.getContext("2d");
-    if (!context) return;
-
-    const index = Math.round(latest) - 1;
-    const safeIndex = Math.max(0, Math.min(index, FRAME_COUNT - 1));
-    const image = images[safeIndex];
-
-    if (image && image.complete) {
-        // Draw image to cover canvas while maintaining aspect ratio
-        const hRatio = canvas.width / image.width;
-        const vRatio = canvas.height / image.height;
-        const ratio = Math.max(hRatio, vRatio);
-        
-        // Calculate dimensions
-        const newWidth = image.width * ratio;
-        const newHeight = image.height * ratio;
-        
-        // Center the image
-        const xOffset = (canvas.width - newWidth) / 2;
-        const yOffset = (canvas.height - newHeight) / 2;
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(
-            image, 
-            0, 0, image.width, image.height,
-            xOffset, yOffset, newWidth, newHeight
-        );
-    }
-  });
-
-  // Handle canvas resize and initial draw
-  useEffect(() => {
-      const resizeCanvas = () => {
-          if (canvasRef.current) {
-              canvasRef.current.width = window.innerWidth;
-              canvasRef.current.height = window.innerHeight;
-              
-              // Force a redraw on resize if we have images
-              if (images.length === FRAME_COUNT) {
-                  const context = canvasRef.current.getContext("2d");
-                  const image = images[0]; // Draw first frame on resize/load before scroll
-                  if (context && image && image.complete) {
-                      const hRatio = canvasRef.current.width / image.width;
-                      const vRatio = canvasRef.current.height / image.height;
-                      const ratio = Math.max(hRatio, vRatio);
-                      const newWidth = image.width * ratio;
-                      const newHeight = image.height * ratio;
-                      const xOffset = (canvasRef.current.width - newWidth) / 2;
-                      const yOffset = (canvasRef.current.height - newHeight) / 2;
-                      
-                      context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                      context.drawImage(
-                          image, 
-                          0, 0, image.width, image.height,
-                          xOffset, yOffset, newWidth, newHeight
-                      );
-                  }
-              }
-          }
-      };
-      
-      resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
-      
-      return () => window.removeEventListener("resize", resizeCanvas);
-  }, [images]);
-
-  // Use a transform to handle opacity for text
-  // The user wants text to appear when the image is in the side pose
-  // Assuming the side pose is near the end (e.g., frame 170-200)
-  // Maps scroll 0.85-0.95 to opacity 0-1
-  const textOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
-  const textY = useTransform(scrollYProgress, [0.85, 0.95], [20, 0]);
-
-  return (
-    <div ref={containerRef} className="relative h-[300vh] bg-black">
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <canvas ref={canvasRef} className="h-full w-full object-cover" />
-        
-        {/* Overlay Text *}
-        <motion.div 
-          style={{ opacity: textOpacity, y: textY }}
-          className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-center pointer-events-none"
-        >
-          <div className="z-10 p-8 pointer-events-auto">
-            <h2 className="text-5xl font-bold tracking-tight text-white sm:text-7xl mb-4 drop-shadow-lg shadow-black">
-              Tausif Khan
-            </h2>
-            <p className="text-xl text-gray-200 sm:text-2xl mb-8 drop-shadow-md shadow-black">
-              Frontend & Backend developer
-            </p>
-            <button className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-black transition-transform hover:scale-105 shadow-xl">
-              To know more about
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-*/
 
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform, motion, useMotionValueEvent } from "framer-motion";
-
+import { useScroll, useTransform, motion, useMotionValueEvent, useInView } from "framer-motion";
+import { StarsBackground } from "@/components/ui/stars-background";
+import Link from "next/link";
 const FRAME_COUNT = 200;
 
 const currentFrame = (index: number) =>
@@ -161,75 +14,104 @@ const currentFrame = (index: number) =>
 export function ImageScroll() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // FIX: Use useInView to detect when the section is visible
+  const isInView = useInView(containerRef, { amount: 0.2, once: true });
+  
+  // FIX: Use Refs to prevent duplicate intervals (the cause of the "lag")
+  const typingStartedRef = useRef(false);
+  const nameStartedRef = useRef(false);
+
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [displayedName, setDisplayedName] = useState("");
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [nameComplete, setNameComplete] = useState(false);
   const [titleComplete, setTitleComplete] = useState(false);
   const [startTyping, setStartTyping] = useState(false);
+  const [displayedCrewName, setDisplayedCrewName] = useState("");
+  const [crewNameComplete, setCrewNameComplete] = useState(false);
+  const [headingWordIndex, setHeadingWordIndex] = useState(0);
+
+  const heading = "CREWMATE";
+  const crewName = "1.Luffy (Caption)";
+  const name = "Tausif Khan";
+  const title = "Frontend & Backend developer";
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  const name = "Tausif Khan";
-  const title = "Frontend & Backend developer";
-
-  // Calculate the current frame index based on scroll progress
   const frameIndex = useTransform(scrollYProgress, [0, 1], [1, FRAME_COUNT]);
 
+  // Preload images
   useEffect(() => {
-    // Preload images
     const loadedImages: HTMLImageElement[] = [];
     let loadedCount = 0;
-
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
       img.src = currentFrame(i);
       img.onload = () => {
         loadedCount++;
-        if (loadedCount === FRAME_COUNT) {
-          setImages(loadedImages);
-        }
+        if (loadedCount === FRAME_COUNT) setImages(loadedImages);
       };
       loadedImages.push(img);
     }
   }, []);
 
-  // Trigger typing when scroll reaches the text reveal point
+  // FIX: Only start initial animations when the component IS IN VIEW
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (latest >= 0.85 && !startTyping) {
-        setStartTyping(true);
-      }
-    });
+    if (isInView && !typingStartedRef.current) {
+      typingStartedRef.current = true;
+      setStartTyping(true);
+    }
+  }, [isInView]);
 
-    return () => unsubscribe();
-  }, [scrollYProgress, startTyping]);
-
-  // Typewriter effect for name
+  // Word fade-in animation for CREWMATE
   useEffect(() => {
     if (!startTyping) return;
+    const timer = setTimeout(() => setHeadingWordIndex(1), 300);
+    return () => clearTimeout(timer);
+  }, [startTyping]);
 
+  // Typewriter for Luffy
+  useEffect(() => {
+    if (!startTyping || headingWordIndex < 1) return;
     let currentIndex = 0;
     const interval = setInterval(() => {
-      if (currentIndex <= name.length) {
-        setDisplayedName(name.slice(0, currentIndex));
+      if (currentIndex <= crewName.length) {
+        setDisplayedCrewName(crewName.slice(0, currentIndex));
         currentIndex++;
       } else {
-        setNameComplete(true);
+        setCrewNameComplete(true);
         clearInterval(interval);
       }
-    }, 80);
-
+    }, 70); // Slightly faster for better feel
     return () => clearInterval(interval);
-  }, [startTyping, name]);
+  }, [startTyping, headingWordIndex]);
 
-  // Typewriter effect for title (starts after name is complete)
+  // FIX: Optimized scroll trigger for Tausif Khan
+  // Using useMotionValueEvent is cleaner and more performant than a manual subscription
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest >= 0.70 && crewNameComplete && !nameStartedRef.current) {
+      nameStartedRef.current = true; // LOCK: Prevents multiple intervals from starting
+      
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        if (currentIndex <= name.length) {
+          setDisplayedName(name.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          setNameComplete(true);
+          clearInterval(interval);
+        }
+      }, 60); // Reduced delay to remove "laggy" feel
+    }
+  });
+
+  // Typewriter for title
   useEffect(() => {
     if (!nameComplete) return;
-
     let currentIndex = 0;
     const interval = setInterval(() => {
       if (currentIndex <= title.length) {
@@ -239,142 +121,109 @@ export function ImageScroll() {
         setTitleComplete(true);
         clearInterval(interval);
       }
-    }, 50);
-
+    }, 40);
     return () => clearInterval(interval);
-  }, [nameComplete, title]);
+  }, [nameComplete]);
 
-  // Update canvas when frameIndex changes
+  // Canvas Drawing Logic
   useMotionValueEvent(frameIndex, "change", (latest: number) => {
     if (images.length !== FRAME_COUNT) return;
-
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
 
-    const context = canvas.getContext("2d");
-    if (!context) return;
+    const index = Math.max(0, Math.min(Math.round(latest) - 1, FRAME_COUNT - 1));
+    const image = images[index];
 
-    const index = Math.round(latest) - 1;
-    const safeIndex = Math.max(0, Math.min(index, FRAME_COUNT - 1));
-    const image = images[safeIndex];
-
-    if (image && image.complete) {
-      // Clear canvas
+    if (image?.complete) {
       context.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Calculate dimensions to contain the image within canvas
-      const hRatio = canvas.width / image.width;
-      const vRatio = canvas.height / image.height;
-      const ratio = Math.min(hRatio, vRatio); // Use min to contain
-      
-      const newWidth = image.width * ratio;
-      const newHeight = image.height * ratio;
-      
-      // Center the image
-      const xOffset = (canvas.width - newWidth) / 2;
-      const yOffset = (canvas.height - newHeight) / 2;
-      
-      context.drawImage(
-        image,
-        0, 0, image.width, image.height,
-        xOffset, yOffset, newWidth, newHeight
-      );
+      const ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
+      const nw = image.width * ratio;
+      const nh = image.height * ratio;
+      context.drawImage(image, 0, 0, image.width, image.height, (canvas.width - nw) / 2, (canvas.height - nh) / 2, nw, nh);
     }
   });
 
-  // Handle canvas resize and initial draw
   useEffect(() => {
-    const resizeCanvas = () => {
+    const resize = () => {
       if (canvasRef.current && containerRef.current) {
         const container = containerRef.current.querySelector('.canvas-container');
         if (container) {
           canvasRef.current.width = container.clientWidth;
           canvasRef.current.height = container.clientHeight;
-
-          // Force a redraw on resize if we have images
-          if (images.length === FRAME_COUNT) {
-            const context = canvasRef.current.getContext("2d");
-            const image = images[0];
-            if (context && image && image.complete) {
-              const hRatio = canvasRef.current.width / image.width;
-              const vRatio = canvasRef.current.height / image.height;
-              const ratio = Math.min(hRatio, vRatio);
-              const newWidth = image.width * ratio;
-              const newHeight = image.height * ratio;
-              const xOffset = (canvasRef.current.width - newWidth) / 2;
-              const yOffset = (canvasRef.current.height - newHeight) / 2;
-
-              context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-              context.drawImage(
-                image,
-                0, 0, image.width, image.height,
-                xOffset, yOffset, newWidth, newHeight
-              );
-            }
-          }
         }
       }
     };
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    return () => window.removeEventListener("resize", resizeCanvas);
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, [images]);
 
-  const textOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
-  const textY = useTransform(scrollYProgress, [0.85, 0.95], [20, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0.70, 0.85], [0, 1]);
+  const textX = useTransform(scrollYProgress, [0.70, 0.85], [-50, 0]);
 
   return (
-    <section className="relative w-full py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-950">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
-        {/* Heading */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-syne font-bold bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
-            Meet Our Team
-          </h2>
-          <div className="mt-4 w-20 h-1 bg-gradient-to-r from-blue-600 to-amber-500 rounded-full mx-auto" />
-        </div>
+    <div ref={containerRef} className="relative h-[300vh] bg-black">
+      <div className="fixed inset-0 w-full h-screen pointer-events-none z-0">
+        <StarsBackground />
+      </div>
 
-        {/* Scroll Container */}
-        <div ref={containerRef} className="relative h-[300vh]">
-          <div className="sticky top-20 md:top-24">
-            {/* Contained Block */}
-            <div className="canvas-container relative w-full aspect-[16/10] md:aspect-[16/9] max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-gray-900">
+      <div className="sticky top-0 left-0 w-full h-screen flex items-center justify-center z-10">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-8">
+          <div className="relative">
+            <div className="text-center mb-6 md:mb-8">
+              <motion.h1
+                initial={{ opacity: 0 }}
+                animate={{ opacity: headingWordIndex >= 1 ? 1 : 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider text-white font-syne drop-shadow-2xl"
+              >
+                {heading}
+              </motion.h1>
+            </div>
+
+            <div className="text-left mb-4 md:mb-6 max-w-5xl mx-auto">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white font-syne drop-shadow-xl">
+                {displayedCrewName}
+                {!crewNameComplete && headingWordIndex >= 1 && (
+                  <span className="animate-pulse ml-1">|</span>
+                )}
+              </h2>
+            </div>
+
+            <div className="canvas-container relative w-full aspect-[16/10] md:aspect-[16/9] max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-gray-900/50 backdrop-blur-sm border border-white/10">
               <canvas ref={canvasRef} className="w-full h-full object-contain" />
 
-              {/* Overlay Text with Typewriter */}
               <motion.div
-                style={{ opacity: textOpacity, y: textY }}
-                className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-black/80 via-black/40 to-transparent text-center pointer-events-none"
+                style={{ opacity: textOpacity, x: textX }}
+                className="absolute inset-0 flex flex-col items-start justify-center bg-gradient-to-r from-black/80 via-black/30 to-transparent p-6 md:p-14 text-left pointer-events-none"
               >
-                <div className="z-10 p-6 md:p-8 pointer-events-auto w-full max-w-3xl">
-                  {/* Name with typewriter */}
+                <div className="z-10 pointer-events-auto max-w-sm md:max-w-xl">
                   <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white font-syne mb-4 drop-shadow-2xl min-h-[1.2em]">
                     {displayedName}
-                    {!nameComplete && startTyping && (
-                      <span className="animate-pulse">|</span>
+                    {!nameComplete && crewNameComplete && (
+                      <span className="animate-pulse ml-1">|</span>
                     )}
                   </h3>
 
-                  {/* Title with typewriter */}
                   <p className="text-lg md:text-xl lg:text-2xl text-gray-200 font-syne mb-6 md:mb-8 drop-shadow-lg min-h-[1.5em]">
                     {displayedTitle}
                     {nameComplete && !titleComplete && (
-                      <span className="animate-pulse">|</span>
+                      <span className="animate-pulse ml-1">|</span>
                     )}
                   </p>
 
-                  {/* Button - appears after typing is complete */}
                   {titleComplete && (
+                     <Link href="/intro/Tausif">
                     <motion.button
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5 }}
-                      className="rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-white font-syne transition-all hover:scale-105 shadow-xl hover:shadow-2xl"
+                      className="rounded-full bg-white px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold text-black font-syne transition-all hover:scale-105 shadow-xl hover:shadow-2xl hover:bg-gray-100"
                     >
                       Learn More About Me
                     </motion.button>
+                    </Link>
                   )}
                 </div>
               </motion.div>
@@ -382,6 +231,6 @@ export function ImageScroll() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

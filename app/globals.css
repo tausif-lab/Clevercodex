@@ -12,6 +12,10 @@
   --destructive-foreground: 0 0% 98%;
   --secondary: 0 0% 96.1%;
   --secondary-foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --border: 0 0% 89.8%;
+  --muted-foreground: 0 0% 45.1%;
 }
 
 @theme inline {
@@ -84,6 +88,10 @@ body {
   --destructive-foreground: 0 0% 98%;
   --secondary: 0 0% 96.1%;
   --secondary-foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --border: 0 0% 89.8%;
+  --muted-foreground: 0 0% 45.1%;
 }
 
 @theme inline {
@@ -98,6 +106,10 @@ body {
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-border: hsl(var(--border));
+  --color-muted-foreground: hsl(var(--muted-foreground));
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-geist: var(--font-geist-sans);
