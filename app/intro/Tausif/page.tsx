@@ -29,12 +29,12 @@ const certificates = [
 const projects = [
   {
     id: 1,
-    title: "Online Exam System",
+    title: "Ai-Proctored & Secured  Online Exam System",
     description: "The Online Examination System with AI Proctored Security Analysis System Question Preparation System for the teacher and MCQ+Disc Diagram Question checking , parents access support  ",
     image: "/Intro/Tausif/Onlineexam.png",
     github: "https://github.com/tausif-lab/onlineexam",
     demo: "https://exampro-4uor.onrender.com",
-    tags: ["HTML","MongoDB","Express.js","javascript","Node.js"],
+    tags: ["HTML","MongoDB","Express.js","javascript","Node.js","OpenCV"],
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const projects = [
     image: "/Intro/Tausif/centrelize.png",
     github: "https://github.com/tausif-lab/centralise",
     demo: "https://shop-demo.com",
-    tags: ["React", "Node.js", "MongoDB"],
+    tags: ["React", "Node.js", "MongoDB", "Hugging Face API"],
   },
   {
     id: 3,
