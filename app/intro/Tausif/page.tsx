@@ -56,12 +56,12 @@ const projects = [
   },
   {
     id: 4,
-    title: "Weather Dashboard",
-    description: "Provided the complete solution and the waste management that include the waste segregation through AI and then waste recycle and waste recycling market place.",
-    image: "/Intro/Tausif/unicef.png",
+    title: "Preordering WhatsApp Automation System ",
+    description: "WhatsApp AutomationSystem that allow the customer to order and Preoder the food for the restaurant And we provide the Dashboard to the Restaurant for the confirmation of the order and proper Analysis of the Daily orders and Revenue ",
+    image: "/Intro/Tausif/n8n.png",
     github: "https://github.com/tausif-lab/Unicef1",
     demo: "https://unicef1.vercel.app",
-    tags: ["React", "Hugging faceAPI"],
+    tags: ["Next.js", "Gemini Api", "N8N", "Google Sheet"]
   },
 ];
 
@@ -131,7 +131,7 @@ const isInView = useInView(containerRef, { once: true, amount: 0.5 });
       transition={{ delay: 0.3 }} // Delay the subtitle for a staggered effect
       className="text-xl md:text-2xl text-gray-300 font-syne uppercase tracking-widest"
     >
-      Frontend & Backend Developer
+      Full Stack & AI Agent Developer
     </motion.p>
   </div>
 </section>

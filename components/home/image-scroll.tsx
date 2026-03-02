@@ -35,7 +35,7 @@ export function ImageScroll() {
   const heading = "CREWMATE";
   const crewName = "1.Luffy (Caption)";
   const name = "Tausif Khan";
-  const title = "Frontend & Backend developer";
+  const title = "Full Stack & AI Agent Developer";
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
