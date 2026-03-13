@@ -20,6 +20,9 @@ const syne = Syne({
 export const metadata: Metadata = {
   title: "CoWebd",
   description: "Cowebd combines performance-focused development with strategic SEO to help ambitious brands scale faster and smarter.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
